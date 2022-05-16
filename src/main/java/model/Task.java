@@ -22,8 +22,10 @@ public class Task {
     private String notes;
     private boolean isCompleted;
     private Date deadline;
+    private Date createdAt;
+    private Date updatedAt;
 
-    public Task(int id, int idProject, String name, String description, String notes, boolean isCompleted, Date deadline) {
+    public Task(int id, int idProject, String name, String description, String notes, boolean isCompleted, Date deadline, Date createdAt, Date updatedAt) {
         this.id = id;
         this.idProject = idProject;
         this.name = name;
@@ -31,7 +33,16 @@ public class Task {
         this.notes = notes;
         this.isCompleted = isCompleted;
         this.deadline = deadline;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
+    
+    //criando um construtor que não recebe nenhuma informação
+    //quando eu criar o objeto , e ele cria na horas
+        public Task(){
+            this.createdAt=new Date();
+        }
+    
 
     public int getId() {
         return id;
@@ -89,57 +100,25 @@ public class Task {
         this.deadline = deadline;
     }
 
-    @Override
-    public String toString() {
-        return "Task{" + "id=" + id + ", idProject=" + idProject + ", name=" + name + ", description=" + description + ", notes=" + notes + ", isCompleted=" + isCompleted + ", deadline=" + deadline + '}';
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 43 * hash + this.id;
-        hash = 43 * hash + this.idProject;
-        hash = 43 * hash + Objects.hashCode(this.name);
-        hash = 43 * hash + Objects.hashCode(this.description);
-        hash = 43 * hash + Objects.hashCode(this.notes);
-        hash = 43 * hash + (this.isCompleted ? 1 : 0);
-        hash = 43 * hash + Objects.hashCode(this.deadline);
-        return hash;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Task other = (Task) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        if (this.idProject != other.idProject) {
-            return false;
-        }
-        if (this.isCompleted != other.isCompleted) {
-            return false;
-        }
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        if (!Objects.equals(this.description, other.description)) {
-            return false;
-        }
-        if (!Objects.equals(this.notes, other.notes)) {
-            return false;
-        }
-        return Objects.equals(this.deadline, other.deadline);
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
     
+    
+
+ 
     
     
     
