@@ -19,19 +19,26 @@ public class Project {
     private String name;
     private String description;
     private Date createdAt;
-    private Date updatedAt;
+    private Date updateAt;
 
     public Project(int id, String name, String description, Date createdAt, Date updatedAt) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.updateAt = updatedAt;
     }
     
+        //criando um construtor que não recebe nenhuma informação
+    //quando eu criar o objeto , e ele cria na horas
+        public Project(){
+            this.createdAt=new Date();
+             this.updateAt=new Date();
+        }
     
     
 
+        
     public int getId() {
         return id;
     }
@@ -64,17 +71,17 @@ public class Project {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
+    public Date getUpdateAt() {
+        return updateAt;
     }
 
     public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
+        this.updateAt = updatedAt;
     }
 
     @Override
     public String toString() {
-        return "Project{" + "id=" + id + ", name=" + name + ", description=" + description + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + '}';
+        return "Project{" + "id=" + id + ", name=" + name + ", description=" + description + ", createdAt=" + createdAt + ", updatedAt=" + updateAt + '}';
     }
 
     @Override
@@ -84,7 +91,7 @@ public class Project {
         hash = 41 * hash + Objects.hashCode(this.name);
         hash = 41 * hash + Objects.hashCode(this.description);
         hash = 41 * hash + Objects.hashCode(this.createdAt);
-        hash = 41 * hash + Objects.hashCode(this.updatedAt);
+        hash = 41 * hash + Objects.hashCode(this.updateAt);
         return hash;
     }
 
@@ -112,7 +119,7 @@ public class Project {
         if (!Objects.equals(this.createdAt, other.createdAt)) {
             return false;
         }
-        return Objects.equals(this.updatedAt, other.updatedAt);
+        return Objects.equals(this.updateAt, other.updateAt);
     }
     
     

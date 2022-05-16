@@ -7,6 +7,7 @@ package util;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 /**
  *
@@ -22,17 +23,17 @@ public class ConnectionFactory {
     //URL é o caminho onde está o banco de dados
     public static final String URL = "jdbc:mysql://localhost:3312/todoapp"; // jdbc responsável por fazer a conexão com o banco de dados
     public static final String USER= "root";
-    public static final String PASS= "usbw";
+    public static final String PASS= "";
     
 
     //método devolve uma conexão
     //usei static por que eu posso chamar esse método sem criar uma instancia é como se fosse um método global
-  public static java.sql.Connection getConnection() {
+  public static Connection getConnection() {
         try {
             Class.forName(DRIVER);//carrega o driver
             return DriverManager.getConnection(URL, USER, PASS);//driver manager faz uma conexão usando esses parametros
         } catch (Exception ex) {
-            throw new RuntimeException("Erro na conexão com o banco de dados", ex);
+             throw new RuntimeException("Erro na conexão com o banco de dados", ex);
         }
     }
     
@@ -57,6 +58,29 @@ public class ConnectionFactory {
             if(statement != null){
                 statement.close();
             }
+        } catch (Exception ex) {
+            throw new RuntimeException("Erro ao fechar a conexão com o banco de dados", ex);
+        }
+        
+    }
+    
+     
+    public static void closeConnection(Connection connection, PreparedStatement statement , ResultSet resultSet) {
+
+        try {
+            if (connection != null) {
+                connection.close();
+            }
+            
+            if(statement != null){
+                statement.close();
+            }
+            
+            if(resultSet != null){
+                resultSet.close();
+            }
+            
+            
         } catch (Exception ex) {
             throw new RuntimeException("Erro ao fechar a conexão com o banco de dados", ex);
         }

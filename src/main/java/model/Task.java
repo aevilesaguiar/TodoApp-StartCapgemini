@@ -5,7 +5,7 @@
 package model;
 
 import java.util.Date;
-import java.util.Objects;
+
 
 /**
  *
@@ -23,9 +23,9 @@ public class Task {
     private boolean isCompleted;
     private Date deadline;
     private Date createdAt;
-    private Date updatedAt;
+    private Date updateAt;
 
-    public Task(int id, int idProject, String name, String description, String notes, boolean isCompleted, Date deadline, Date createdAt, Date updatedAt) {
+    public Task(int id, int idProject, String name, String description, String notes, boolean isCompleted, Date deadline, Date createdAt, Date updateAt) {
         this.id = id;
         this.idProject = idProject;
         this.name = name;
@@ -34,14 +34,16 @@ public class Task {
         this.isCompleted = isCompleted;
         this.deadline = deadline;
         this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.updateAt = updateAt;
     }
     
     //criando um construtor que não recebe nenhuma informação
     //quando eu criar o objeto , e ele cria na horas
-        public Task(){
-            this.createdAt=new Date();
-        }
+    public Task(){
+
+        this.createdAt = new Date();
+        this.updateAt = new Date();
+    }
     
 
     public int getId() {
@@ -108,12 +110,12 @@ public class Task {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
+    public Date getUpdateAt() {
+        return updateAt;
     }
 
     public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
+        this.updateAt = updatedAt;
     }
     
     

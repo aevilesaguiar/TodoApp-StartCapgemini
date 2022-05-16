@@ -3,7 +3,13 @@
  */
 package TodoApp;
 
+import controller.ProjectController;
+import controller.TaskController;
 import java.sql.Connection;
+import java.util.Date;
+import java.util.List;
+import model.Project;
+import model.Task;
 import util.ConnectionFactory;
 
 
@@ -13,11 +19,55 @@ import util.ConnectionFactory;
 public class App {
        public static void main(String[] args) {
            
-           //pedir a conexão para conectionnFactory
-           Connection c = ConnectionFactory.getConnection();
+           //trecho de código para testar se os controllers estão funcioanndo
+
+           //cri um ProjectController, insiro as informações e depois salvo o projeto
+      /*     ProjectController projectController = new ProjectController();
            
-           //encerra a conexão
-           ConnectionFactory.closeConnection(c);
+           Project project = new Project();
+           project.setName("Projeto teste");
+           project.setDescription("description");
+           projectController.save(project);
+           */
+      
+       /*  ProjectController projectController = new ProjectController();         
+            Project project = new Project();
+            project.setId(5);
+            project.setName("Projeto teste atualizado com novo nome de projeto ");
+            project.setDescription("description");
+           
+            projectController.update(project);
+
+           
+           //crio uma lista de projetos e atraves do projectController eu listo todos os projetos
+           List<Project> projects = projectController.getAll();
+           System.out.println("Total de projetos= " +projects.size());
+           
+           
+           
+           projectController.removeById(2);*/
+       
+           TaskController taskController = new TaskController();
+       
+       
+       Task task = new Task();
+       task.setIdProject(5);
+       task.setName("Criar as telas da aplicação");
+       task.setDescription("devem ser criadas telas para o cadastro");
+       task.setNotes("sem anotações");
+       task.setIsCompleted(false);
+       task.setDeadline(new Date());
+       
+       taskController.save(task);
+       
+       
+       task.setName("Alterar telas de aplicação");
+       taskController.update(task);
+       
+       List<Task> tasks = taskController.getAll( 5);//tenho que dizer o numero do projeto
+       System.out.println("Total de Tarefas =" +tasks.size());
+           
+          
            
     }
 }

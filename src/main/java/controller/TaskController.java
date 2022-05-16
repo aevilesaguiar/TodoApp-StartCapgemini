@@ -13,7 +13,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import model.Task;
 import util.ConnectionFactory;
-
 /**
  *
  * @author AEVILES
@@ -23,14 +22,15 @@ import util.ConnectionFactory;
 public class TaskController {
     
     public void save(Task task){
-        String sql = "INSERT INTO tasks (idproject"
-                +" name,"
-                +"description,"
-                +"completed,"
-                +"notes,"
-                +"deadline,"
+          String sql = "INSERT INTO tasks ("
+                +"idProject,"
+                + "name,"
+                + "description,"
+                + "completed,"
+                + "notes,"
+                + "deadline,"
                 +"createdAt,"
-                +"updateAt) VALUES (?,?,?,?,?,?,?,?)"; //sempre que eu tiver que incluir um valor num sql e eu não tenha eu incluo uma interrogação
+                + "updateAt) VALUES(?,?,?,?,?,?,?,?)"; //sempre que eu tiver que incluir um valor num sql e eu não tenha eu incluo uma interrogação
         
         //Conexão
         Connection conn= null;
@@ -44,21 +44,22 @@ public class TaskController {
             conn = ConnectionFactory.getConnection();
             //preparando a query /prepara o comando sql para ser utilizado no sql
             statment = conn.prepareStatement(sql);
-            //setando os valores
-            statment.setInt(1, task.getIdProject());
-            statment.setString(2, task.getName());
+            //setando os valores para dentro do statment
+          
+            statment.setInt(1,task.getIdProject());
+            statment.setString(2,task.getName());
             statment.setString(3, task.getDescription());
-            statment.setBoolean(4, task.isIsCompleted());
-            statment.setString(5, task.getNotes());
-            statment.setDate(6, new Date(task.getDeadline().getTime()));//tenho que criar uma nova data, ele está convertendo pois o Date do java é diferente do Date do SQL, 
-            statment.setDate(7,new Date(task.getCreatedAt().getTime()));
-            statment.setDate(8, new Date(task.getUpdatedAt().getTime()));
+            statment.setBoolean(4,task.isIsCompleted());
+            statment.setString(5,task.getNotes());
+            statment.setDate(6,new Date(task.getDeadline().getTime()));//tenho que criar uma nova data, ele está convertendo pois o Date do java é diferente do Date do SQL, 
+            statment.setDate(7, new Date( task.getCreatedAt().getTime()));
+            statment.setDate(8, new Date( task.getUpdateAt().getTime()));
             //executando a query, quando a linha abaixo for executada aí iremos inserir os dados acima dentro da tarefa
             statment.execute();
             
         } catch (Exception e) {
-            throw  new RuntimeException("Erro ao salvar a tarefa"
-            + e.getMessage(),e);
+            
+        throw new RuntimeException("erro ao salvar? a tarefa"+ e.getMessage(),e);
         
         }finally{
             
@@ -71,16 +72,16 @@ public class TaskController {
     
     public void update(Task task){
         
-        String sql= "UPDATE tasks SET"
-                +"idProject = ?,"
-                + " name=?,"
-                + " description = ?, "
-                + " notes=?, "
-                +"completed = ?"
-                +"deadline=?"
-                +"createdAt=?"
-                +"updateAt=?"
-                +"WHERE id= ?";
+        String sql = "UPDATE tasks SET "
+                +"idProject = ?, "
+                +"name = ?, "
+                +"description = ?, "
+                +"notes=?, "
+                +"completed = ?, "
+                +"deadline = ?, "
+                +"createdAt = ?, "
+                +"updateAt = ? "
+                +"WHERE id = ?";
         
          //Conexão
         Connection conn= null;
@@ -94,23 +95,24 @@ public class TaskController {
             conn = ConnectionFactory.getConnection();
             //preparando a query /prepara o comando sql para ser utilizado no sql
             statment = conn.prepareStatement(sql);
-            //setando os valores
-           statment.setInt(1, task.getIdProject());
-           statment.setString(2,task.getName());
-           statment.setString(3, task.getDescription());
-           statment.setString(4, task.getNotes());
-           statment.setBoolean(5, task.isIsCompleted());
-           statment.setDate(6,new Date(task.getDeadline().getTime()));
-           statment.setDate(7,new Date(task.getCreatedAt().getTime()));
-           statment.setDate(8,new Date(task.getUpdatedAt().getTime()));
+            //setando os valores do statment
+    statment.setInt (1,task.getIdProject());
+            statment.setString(2, task.getName());
+            statment.setString(3, task.getDescription());
+            statment.setString(4, task.getNotes());
+            statment.setBoolean(5, task.isIsCompleted());
+            statment.setDate(6, new Date (task.getDeadline().getTime()));
+            statment.setDate(7, new Date(task.getCreatedAt().getTime()));
+            statment.setDate(8, new Date( task.getUpdateAt().getTime()));
+            statment.setInt(9, task.getId());
+            statment.execute();
            
             
             //executando a query, quando a linha abaixo for executada aí iremos inserir os dados acima dentro da tarefa
             statment.execute();
             
-        } catch (Exception e) {
-            throw  new RuntimeException("Erro ao atualizar a tarefa"
-            + e.getMessage(),e);
+        }catch (SQLException e) {
+              throw new RuntimeException ("Erro ao atualizar a tarefa"+ e.getMessage());
         
         }finally{
             
@@ -165,10 +167,11 @@ public class TaskController {
         //Statment prepara o comando sql para ser utilizado no sql
         PreparedStatement statment=null;
         
-        //Retorno do banco de dados o resultSet, é nessa que vamos guardar a resposta do Banco de dados
+        //variavel que guarda o Retorno do banco de dados o resultSet, é nessa que vamos guardar a resposta do Banco de dados
         ResultSet resultSet = null;
         
         //Lista de tarefas que será devolvida quando a chamada do método acontecer
+        //usado para coleções, conjunto de valores
         List<Task> tasks = new ArrayList<>();
         
         
@@ -177,34 +180,38 @@ public class TaskController {
             conn = ConnectionFactory.getConnection();
             //preparando a query /prepara o comando sql para ser utilizado no sql
             statment = conn.prepareStatement(sql);
-            //setando os valores
+            //setando oo valor que corresponde ao filtro de busca
             statment.setInt(1, idProject);
             //executando a query
            resultSet= statment.executeQuery();//ele devolve o ResultSet
            
-           
+           //enquanto houverem valores percorridos no meu resultSet
             while (resultSet.next()) {//enquanto houver um proximo eu vou pegando esses valores
-                Task task = new Task();
-                task.setId(resultSet.getInt("id"));
-                task.setName(resultSet.getString("name"));
-                task.setDescription(resultSet.getString("description"));
-                task.setNotes(resultSet.getString("notes"));
-                task.setIsCompleted(resultSet.getBoolean("completed"));
-                task.setDeadline(resultSet.getDate("deadline"));
-                task.setCreatedAt(resultSet.getDate("createdAt"));
-                task.setUpdatedAt(resultSet.getDate("updateAt"));
+                //crio uma nova tarefa
+               Task task = new Task();
+               task.setId(resultSet.getInt("id"));
+               task.setIdProject(resultSet.getInt("idProject"));
+               task.setName(resultSet.getString("name"));
+               task.setDescription(resultSet.getString("description"));
+               task.setNotes(resultSet.getString("notes"));
+               task.setIsCompleted(resultSet.getBoolean("completed"));
+               task.setDeadline(resultSet.getDate("deadline"));
+               task.setCreatedAt(resultSet.getDate("createdAt"));
+               task.setUpdatedAt(resultSet.getDate("updateAt"));
                 
+                //pego os dados que populei e adiciono no banco de dados
                 tasks.add(task);
                 
             }
             
         } catch (Exception e) { //ocorrer um erro agente trata a exceção
-            throw new RuntimeException("Erro ao deletar a tarefa");
+           throw new RuntimeException("Erro ao inserir a tarefa" + e.getMessage());
         } finally {  //o bloco finally é um bloco que sempre será executado
-            ConnectionFactory.closeConnection(conn , statment);
+            ConnectionFactory.closeConnection(conn , statment, resultSet);
         }
         
-        return null;
+        //lista de tarefas que foi criada e carregada do banco de dados
+        return tasks;
     }
     
 }
