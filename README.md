@@ -77,10 +77,10 @@ Imagens
 
 - Criação do banco de Dados (ok)
 - Criação das classes de modelo (OK)
-- criação de conexão com o banco de dados
-- Criação das classes de controle (Acesso ao banco de dados)
+- criação de conexão com o banco de dados(OK)
+- Criação das classes de controle (Acesso ao banco de dados)(OK)
 - Criação da interface gráfica
-    - Criação da tela principal
+    - Criação da tela principal(em andamento)
     - Criação do CellRederer Prazo
     - Criação do CellRederer Editar e Deletar
     - Criação da tela de Cadastro de Projeto
