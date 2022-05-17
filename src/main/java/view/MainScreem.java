@@ -4,8 +4,15 @@
  */
 package view;
 
+import controller.ProjectController;
+import controller.TaskController;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.List;
+import javax.swing.DefaultListModel;
+import model.Project;
 
 /**
  *
@@ -14,13 +21,27 @@ import java.awt.Font;
 public class MainScreem extends javax.swing.JFrame {
 
     /**
-     * Creates new form MainScreem
+     * Ciar duas instancias do controlador por que ele vai trazer os dados do banco de dados
      */
+    
+    ProjectController projectController;
+    TaskController taskController;
+    
+    //carregar os dados para o list
+    //essa implemetação é padrão do java , só colocamos os dados e ele apresenta, ESPECIFICA O QUE SERÁ MOSTRADA NO JLIST
+    DefaultListModel projectModel;
+    
+    //método construto
     public MainScreem() {
         initComponents();
         
         //chamar os métodos
         decorateTableTasks();
+        
+        initDataController();
+        
+        initComponentsModel ();
+        
     }
 
     /**
@@ -208,11 +229,6 @@ public class MainScreem extends javax.swing.JFrame {
         jPanelProjectList.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jListProjects.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jListProjects.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jListProjects.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jListProjects.setFixedCellHeight(50);
         jListProjects.setSelectionBackground(new java.awt.Color(0, 153, 102));
@@ -224,8 +240,8 @@ public class MainScreem extends javax.swing.JFrame {
             jPanelProjectListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelProjectListLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPaneProjects, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPaneProjects, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanelProjectListLayout.setVerticalGroup(
             jPanelProjectListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -329,6 +345,20 @@ public class MainScreem extends javax.swing.JFrame {
         
         ProjectDialogScreen projectDialogScreen = new ProjectDialogScreen(this, rootPaneCheckingEnabled);
         projectDialogScreen.setVisible(true);
+        
+             //esse trecho eu estou adicionando um listener de janela, ou seja um ouvinte
+            //o listener de janela avisa quando a janela for chamada WindowAdapter();
+            //quando ocorrer um evento de fechar execute o loadProjects(mostrar os projetos do Banco de dados)
+        projectDialogScreen.addWindowListener(new WindowAdapter() {
+            
+            //quando a janela de cadastro de projeto for fechada eu atualizo 
+            public void windowClosed(WindowEvent e){
+                loadProjects();
+            }
+        });
+        
+        
+        
     }//GEN-LAST:event_jLabelProjectsAddMouseClicked
 
     private void jLabelTasksAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelTasksAddMouseClicked
@@ -411,6 +441,50 @@ public void decorateTableTasks(){
     //criando um sorte automático para as colunas da table.
     //faz com que possamos ordenar as colunas
     jTableTasks.setAutoCreateRowSorter(true);
+    
+}
+    //vou chamar esse método no método construtor
+public void initDataController(){
+    
+    //instanciei as variaveis que descrevi acima
+    projectController = new ProjectController();
+    taskController = new TaskController();
+    
+    
+    
+}
+//iniciando o meu projectModel
+    public void initComponentsModel (){
+        //vou guardar dentro dele os meus projetos
+    projectModel = new DefaultListModel();
+    
+    //carregar os dados para dentro desse model, para ele poder exibir
+    loadProjects();
+    }
+
+
+
+public void loadProjects(){
+    
+    //estrutura que vai guardar os nossos projets
+    List<Project> projects = projectController.getAll();
+    
+    //caso exista dados, eu quero que limpe os dados
+    //limpei a estrutura que guarda esses projetos da classe jList
+    projectModel.clear();
+    
+    //vou adicionar todos os projetos que estão dentro dessa lista
+    for(int i=0; i<projects.size();i++){
+    
+        Project project = projects.get(i);
+        projectModel.addElement(project);
+        
+    }
+    
+    
+    //depois que carregamos temos que vincular que project model está vinculado ao jList
+    jListProjects.setModel(projectModel);
+    
     
 }
 

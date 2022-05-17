@@ -80,11 +80,11 @@ Imagens
 - criação de conexão com o banco de dados(OK)
 - Criação das classes de controle (Acesso ao banco de dados)(OK)
 - Criação da interface gráfica
-    - Criação da tela principal(em andamento)
-    - Criação do CellRederer Prazo
-    - Criação do CellRederer Editar e Deletar
-    - Criação da tela de Cadastro de Projeto
-    - Criação da tela de cadastro de tarefa
+    - Criação da tela principal(OK)
+    - Criação do CellRederer Prazo(OK)
+    - Criação do CellRederer Editar e Deletar(OK)
+    - Criação da tela de Cadastro de Projeto(OK)
+    - Criação da tela de cadastro de tarefa(OK)
 - Implementação dos eventos
     - Validações
 - Ajustes finais
