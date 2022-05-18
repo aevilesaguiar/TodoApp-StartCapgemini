@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import model.Project;
 import model.Task;
+import util.ButtonColumnCellRederer;
 import util.DeadlineColumnCellRederer;
 import util.TaskTableModel;
 
@@ -548,6 +549,10 @@ public void decorateTableTasks(){
     
     //eu estou pegando a minha jTable, e pego a segunda coluna, seta o cellRenderer();, ao invés de usar o padrão ele o que foi desenvolvido
     jTableTasks.getColumnModel().getColumn(2).setCellRenderer(new DeadlineColumnCellRederer());
+    
+     jTableTasks.getColumnModel().getColumn(4).setCellRenderer(new ButtonColumnCellRederer("edit"));
+      jTableTasks.getColumnModel().getColumn(5).setCellRenderer(new ButtonColumnCellRederer("delete"));
+    
     
     //criando um sorte automático para as colunas da table.
     //faz com que possamos ordenar as colunas

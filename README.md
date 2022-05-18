@@ -86,6 +86,6 @@ Imagens
     - Criação da tela de Cadastro de Projeto(OK)
     - Criação da tela de cadastro de tarefa(OK)
 - Implementação dos eventos
-    - Validações
+    - Validações(OK)
 - Ajustes finais
 - Testes de aplicação

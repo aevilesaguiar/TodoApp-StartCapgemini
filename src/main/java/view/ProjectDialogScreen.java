@@ -156,26 +156,33 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
         //salvar as informações do campo no banco de dados
   
         try {
-             
-        Project project = new Project();
-        
-        //salvar as informações do campo dentro de projeto
-        
-        project.setName(jTextFieldName.getText());//eu quero pegar o tecto que o usuario digitou
-        project.setDescription(jTextAreaDescription.getText());
-        
-        //mandando o controlador salvar as informações do Banco de dados
-        controller.save(project);
-        
-        JOptionPane.showMessageDialog(rootPane, "Projeto salvo com Sucesso!");
-        
-      
+            
+            if(!jTextFieldName.getText().equals("")){//se o campo não for vazio cadastre
+                      
+            Project project = new Project();
+
+            //salvar as informações do campo dentro de projeto
+
+            project.setName(jTextFieldName.getText());//eu quero pegar o tecto que o usuario digitou
+            project.setDescription(jTextAreaDescription.getText());
+
+            //mandando o controlador salvar as informações do Banco de dados
+            controller.save(project);
+
+            JOptionPane.showMessageDialog(rootPane, "Projeto salvo com Sucesso!");  
+            
+                      this.dispose();
+                
+            }else{
+                   JOptionPane.showMessageDialog(rootPane, "O projeto não foi salvo, pois o campo nome não foi preenchido! ");  
+            }
+       
         } catch (Exception e) {
             
         JOptionPane.showMessageDialog(rootPane, e.getMessage());
         }
         
-          this.dispose();
+
        
     }//GEN-LAST:event_jLabelToolBarSaveMouseClicked
 
