@@ -13,6 +13,8 @@ import java.awt.event.WindowEvent;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import model.Project;
+import model.Task;
+import util.TaskTableModel;
 
 /**
  *
@@ -27,9 +29,12 @@ public class MainScreem extends javax.swing.JFrame {
     ProjectController projectController;
     TaskController taskController;
     
+    
     //carregar os dados para o list
     //essa implemetação é padrão do java , só colocamos os dados e ele apresenta, ESPECIFICA O QUE SERÁ MOSTRADA NO JLIST
-    DefaultListModel projectModel;
+    DefaultListModel projectsModel;
+    
+    TaskTableModel taskModel;
     
     //método construto
     public MainScreem() {
@@ -41,6 +46,8 @@ public class MainScreem extends javax.swing.JFrame {
         initDataController();
         
         initComponentsModel ();
+        
+        
         
     }
 
@@ -284,6 +291,7 @@ public class MainScreem extends javax.swing.JFrame {
         jTableTasks.setGridColor(new java.awt.Color(255, 255, 255));
         jTableTasks.setRowHeight(50);
         jTableTasks.setSelectionBackground(new java.awt.Color(204, 255, 204));
+        jTableTasks.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTableTasks.setShowGrid(false);
         jTableTasks.setShowHorizontalLines(true);
         jScrollPaneTasks.setViewportView(jTableTasks);
@@ -453,14 +461,32 @@ public void initDataController(){
     
     
 }
-//iniciando o meu projectModel
+//iniciando o meu projectsModel
     public void initComponentsModel (){
         //vou guardar dentro dele os meus projetos
-    projectModel = new DefaultListModel();
+    projectsModel = new DefaultListModel();
     
     //carregar os dados para dentro desse model, para ele poder exibir
     loadProjects();
+    
+    taskModel = new TaskTableModel();
+    jTableTasks.setModel(taskModel);
+    //carregas tarefas
+    loadTasks(13);
+    
+    
     }
+    
+    //esse método vai carregar as tarefas do BD, e vai setar as tarefas para dentro do nosso tableModel
+    public void loadTasks(int idProject){//id do projeto
+        //carrega todas as tarefas que estão no banco
+        List<Task> tasks = taskController.getAll(idProject);
+        //setei as tarefas
+        taskModel.setTasks(tasks);
+        
+        
+    }
+    
 
 
 
@@ -471,19 +497,19 @@ public void loadProjects(){
     
     //caso exista dados, eu quero que limpe os dados
     //limpei a estrutura que guarda esses projetos da classe jList
-    projectModel.clear();
+    projectsModel.clear();
     
     //vou adicionar todos os projetos que estão dentro dessa lista
     for(int i=0; i<projects.size();i++){
     
         Project project = projects.get(i);
-        projectModel.addElement(project);
+        projectsModel.addElement(project);
         
     }
     
     
     //depois que carregamos temos que vincular que project model está vinculado ao jList
-    jListProjects.setModel(projectModel);
+    jListProjects.setModel(projectsModel);
     
     
 }
