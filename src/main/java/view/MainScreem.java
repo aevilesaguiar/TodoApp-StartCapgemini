@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import model.Project;
 import model.Task;
+import util.DeadlineColumnCellRederer;
 import util.TaskTableModel;
 
 /**
@@ -43,13 +44,15 @@ public class MainScreem extends javax.swing.JFrame {
     public MainScreem() {
         initComponents();
         
-        //chamar os métodos
-        decorateTableTasks();
+    
         
         initDataController();
         
         initComponentsModel ();
         
+        
+        //incluo no final, após renderizar os dados
+        decorateTableTasks();
         
         
     }
@@ -543,10 +546,14 @@ public void decorateTableTasks(){
     jTableTasks.getTableHeader().setBackground(new Color(0,153,102));
     jTableTasks.getTableHeader().setForeground(new Color(255,255,255));
     
+    //eu estou pegando a minha jTable, e pego a segunda coluna, seta o cellRenderer();, ao invés de usar o padrão ele o que foi desenvolvido
+    jTableTasks.getColumnModel().getColumn(2).setCellRenderer(new DeadlineColumnCellRederer());
     
     //criando um sorte automático para as colunas da table.
     //faz com que possamos ordenar as colunas
     jTableTasks.setAutoCreateRowSorter(true);
+    
+    
     
 }
     //vou chamar esse método no método construtor
