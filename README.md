@@ -87,5 +87,5 @@ Imagens
     - Criação da tela de cadastro de tarefa(OK)
 - Implementação dos eventos
     - Validações(OK)
-- Ajustes finais
-- Testes de aplicação
+- Ajustes finais(ok)
+- Testes de aplicação(implementando)
