@@ -193,6 +193,7 @@ public class TaskDialogScreen extends javax.swing.JDialog {
 
     private void jFormattedTextFieldDeadlineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextFieldDeadlineActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_jFormattedTextFieldDeadlineActionPerformed
 
     private void jLabelToolBarSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelToolBarSaveMouseClicked
@@ -200,7 +201,7 @@ public class TaskDialogScreen extends javax.swing.JDialog {
         try {
             Task task = new Task();
             
-            task.setIdProject(3);
+            task.setIdProject(project.getId());
             task.setName(jTextFieldName.getText());
             task.setDescription(jTextAreaDescription.getText());
             task.setNotes(jTextAreaNotes.getText());
